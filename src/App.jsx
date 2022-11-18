@@ -4,7 +4,7 @@ import Layout from './config/Layout/Layout';
 import routesConfig from './config/routes';
 import { UserDataProvider } from './config/UserData/storage';
 
-function App() {
+function App(): JSX.Element {
   const routes = useRoutes(routesConfig);
   return (
     <>

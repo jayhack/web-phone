@@ -1,40 +1,40 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { UserDataContext } from '../../../config/UserData/storage';
+import React, { useContext, useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+import { UserDataContext } from '../../../config/UserData/storage'
 
-function JokesApp() {
-  const [Joke, setJoke] = useState(null);
-  const { UserData, setUserData } = useContext(UserDataContext);
-  const [Loading, setLoading] = useState(true);
-  async function getJoke() {
-    setLoading(true);
+function JokesApp(): JSX.Element {
+  const [Joke, setJoke] = useState<any>(null)
+  const { UserData, setUserData } = useContext(UserDataContext)
+  const [Loading, setLoading] = useState(true)
+  async function getJoke(): Promise<void> {
+    setLoading(true)
     await fetch(
       `https://v2.jokeapi.dev/joke/${UserData.jokes?.type || 'Any'}?lang=${UserData.jokes?.language || 'en'}&type=single`,
     )
       .then((res) => {
         if (res.ok) {
-          return res.json();
+          return res.json()
         }
-        throw Error('Api Error');
+        throw Error('Api Error')
       })
       .then((data) => {
         setTimeout(() => {
           if (data.error) {
-            setJoke({ joke: data.message });
+            setJoke({ joke: data.message })
           } else {
-            setJoke(data);
+            setJoke(data)
           }
-          setLoading(false);
-        }, 1000);
+          setLoading(false)
+        }, 1000)
       }).catch((e) => {
-        setJoke({ joke: e.message });
-        setLoading(false);
-      });
+        setJoke({ joke: e.message })
+        setLoading(false)
+      })
   }
 
   useEffect(() => {
-    getJoke();
-  }, []);
+    getJoke()
+  }, [])
 
   return (
     <motion.div
@@ -94,7 +94,7 @@ function JokesApp() {
         )}
     </motion.div>
 
-  );
+  )
 }
 
-export default JokesApp;
+export default JokesApp
